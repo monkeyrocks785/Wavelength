@@ -1,0 +1,334 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #09090b;
+  --color-coal: #0e0e11;
+  --color-panel: #121216;
+  --color-raise: #18181d;
+  --color-line: #232329;
+  --color-linehi: #32323a;
+  --color-fog: #8e8e99;
+  --color-mist: #c4c4ce;
+  --color-bone: #edeff3;
+  --color-volt: #c8ff3d;
+  --color-voltdim: #9ecf1e;
+  --color-pulse: #7c5cff;
+  --color-cyan: #54e0ff;
+  --color-ember: #ff6a3d;
+
+  --font-sans: var(--font-space), "Space Grotesk", system-ui, sans-serif;
+  --font-mono: var(--font-plex), "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+html {
+  background: var(--color-ink);
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-volt);
+  color: var(--color-ink);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-linehi);
+  border: 3px solid var(--color-ink);
+  border-radius: 99px;
+}
+
+:focus-visible {
+  outline: 1px solid var(--color-volt);
+  outline-offset: 3px;
+}
+
+/* ————————————————— Typography helpers ————————————————— */
+
+.display {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-fog);
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ————————————————— Surfaces ————————————————— */
+
+.panel {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  position: relative;
+}
+
+.panel-hi {
+  border-color: var(--color-linehi);
+}
+
+/* corner tick marks — mechanical chassis detail */
+.ticks {
+  background-image:
+    linear-gradient(var(--tick, var(--color-linehi)) 0 0),
+    linear-gradient(var(--tick, var(--color-linehi)) 0 0),
+    linear-gradient(var(--tick, var(--color-linehi)) 0 0),
+    linear-gradient(var(--tick, var(--color-linehi)) 0 0),
+    linear-gradient(var(--tick, var(--color-linehi)) 0 0),
+    linear-gradient(var(--tick, var(--color-linehi)) 0 0),
+    linear-gradient(var(--tick, var(--color-linehi)) 0 0),
+    linear-gradient(var(--tick, var(--color-linehi)) 0 0);
+  background-repeat: no-repeat;
+  background-size:
+    12px 1px, 1px 12px,
+    12px 1px, 1px 12px,
+    12px 1px, 1px 12px,
+    12px 1px, 1px 12px;
+  background-position:
+    -1px -1px, -1px -1px,
+    calc(100% + 1px) -1px, calc(100% + 1px) -1px,
+    -1px calc(100% + 1px), -1px calc(100% + 1px),
+    calc(100% + 1px) calc(100% + 1px), calc(100% + 1px) calc(100% + 1px);
+}
+
+.ticks-volt {
+  --tick: var(--color-volt);
+}
+
+.gridbg {
+  background-image:
+    linear-gradient(rgba(237, 239, 243, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(237, 239, 243, 0.03) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.noise::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ————————————————— Controls ————————————————— */
+
+.btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border: 1px solid var(--color-linehi);
+  color: var(--color-bone);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  border-color: var(--color-volt);
+  transform: translateY(-1px);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-volt {
+  background: var(--color-volt);
+  border-color: var(--color-volt);
+  color: var(--color-ink);
+  font-weight: 500;
+}
+
+.btn-volt:hover {
+  background: #d8ff70;
+  border-color: #d8ff70;
+  box-shadow: 0 0 32px rgba(200, 255, 61, 0.25);
+}
+
+.btn-pulse {
+  border-color: var(--color-pulse);
+  color: #c9bfff;
+}
+.btn-pulse:hover {
+  border-color: #a793ff;
+  box-shadow: 0 0 32px rgba(124, 92, 255, 0.22);
+}
+
+.btn-danger {
+  border-color: rgba(255, 106, 61, 0.5);
+  color: var(--color-ember);
+}
+.btn-danger:hover {
+  border-color: var(--color-ember);
+  box-shadow: 0 0 32px rgba(255, 106, 61, 0.2);
+}
+
+.input {
+  font-family: var(--font-mono);
+  background: var(--color-coal);
+  border: 1px solid var(--color-line);
+  color: var(--color-bone);
+  padding: 14px 16px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+
+.input::placeholder {
+  color: var(--color-fog);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-volt);
+}
+
+.code-input {
+  text-transform: uppercase;
+  font-size: 24px;
+  letter-spacing: 0.5em;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* ————————————————— Status details ————————————————— */
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  flex: none;
+}
+
+.dot-live {
+  background: var(--color-volt);
+  box-shadow: 0 0 10px rgba(200, 255, 61, 0.8);
+  animation: blink 1.6s ease-in-out infinite;
+}
+
+.dot-wait {
+  background: var(--color-ember);
+  box-shadow: 0 0 8px rgba(255, 106, 61, 0.6);
+  animation: blink 1s ease-in-out infinite;
+}
+
+.dot-idle {
+  background: var(--color-linehi);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+.spin {
+  animation: spin 1.1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* range slider */
+input[type="range"].fader {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 28px;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"].fader::-webkit-slider-runnable-track {
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-volt) var(--fill, 90%), var(--color-line) var(--fill, 90%));
+}
+input[type="range"].fader::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -6px;
+  background: var(--color-bone);
+  border: 1px solid var(--color-ink);
+  border-radius: 0;
+  box-shadow: 0 0 0 1px var(--color-linehi);
+}
+input[type="range"].fader::-moz-range-track {
+  height: 2px;
+  background: var(--color-line);
+}
+input[type="range"].fader::-moz-range-progress {
+  height: 2px;
+  background: var(--color-volt);
+}
+input[type="range"].fader::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--color-bone);
+  border: none;
+  border-radius: 0;
+}
+
+/* separator hairline */
+.hairline {
+  height: 1px;
+  background: var(--color-line);
+}
+
+/* ledger row hover */
+.ledger {
+  transition: background 0.2s ease;
+}
+.ledger:hover {
+  background: var(--color-raise);
+}
